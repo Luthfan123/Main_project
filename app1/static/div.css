@@ -1,0 +1,18 @@
+.content {
+    border-radius: 10px;
+    border-style: ridge;
+    border-color: #00bba7;
+    background-color: bisque;
+    color: black;
+    width: 187px;
+    text-align: center;
+    margin-left: 60px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 136px;
+    float: left;
+}
+.btn{
+    background-color: #8a753b6b;
+    margin-top: 12px;
+}

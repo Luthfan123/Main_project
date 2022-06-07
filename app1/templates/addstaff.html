@@ -35,7 +35,23 @@
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
-
+        <script>
+            function valid()
+            {
+                
+                enterDate=new Date(f1.doj.value);
+               
+                curDate= new Date();
+                if(curDate<enterDate)
+                {
+                    alert("Invalid date");
+                    f1.doj.focus();
+                    return false;
+                }
+               
+               return true;
+            }
+        </script>
     </head>
     {% include "navbar.html" %}
     <br>
@@ -58,16 +74,7 @@
 		<input type="text"  id="t1" placeholder="name" name="name" required>
         </div>
     </div>
-<script>
-    
-    var dat=new Date();
-    var d=dat.getFullYear()+"-"+String(dat.getMonth()+1).padStart(2,'0')+"-"+String(dat.getDate()).padStart(2,'0')
-    //alert(d)
-    document.getElementById('d1').max=d;
-//    d1.max=new Date().toISOString.split("T")[0]
-//    alert(new Date().toISOString.split("T")[0])
 
-</script>
    
     <div class="form-group">
         <label for="inputEmail" class="control-label col-xs-2"> Address</label>
@@ -89,7 +96,7 @@
     <div class="form-group">
         <label for="inputEmail" class="control-label col-xs-2">Phone</label>
         <div class="col-xs-10">
-		<input type="number"  id="t1" placeholder="Phone" name="phone" required>
+		<input type="number" maxlength="10" pattern="\d{10}" id="t1" placeholder="Phone" name="phone" title="please use numbers" required>
         </div>
     </div>
 
@@ -104,7 +111,7 @@
     <div class="form-group">
         <label for="inputEmail" class="control-label col-xs-2">Doj</label>
         <div class="col-xs-10">
-		<input type="date"  id="d1" placeholder="Doj" max="2022-05-25" name="doj" required>
+		<input type="date"  id="t1" placeholder="Doj" name="doj" required>
         </div>
     </div>
     <div class="form-group">
@@ -139,7 +146,7 @@
 	<br>
     <div class="form-group">
         <div class="col-xs-offset-2 col-xs-10"><br>
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary" onClick="return valid();">Add</button>
 		 <button type="reset" class="btn btn-primary">Refresh</button>
 
         </div>
@@ -147,7 +154,7 @@
         <div class="form-group">
         <div class="col-xs-offset-2 col-xs-10">
  <p align="right"><a href="#"></a><span class="fontawesome-arrow-right"></span></p>
-		
+ <input type="hidden" value="{{data}}" name="s1">	
     
 </div></div>
         </form>
@@ -226,6 +233,13 @@ Saico spices had made quality and purity the hall marks of its Products without 
         </footer>
 
         <!-- Javascript -->
+        <script>
+            if(f1.s1.value==1)
+            {
+                alert("success")
+            }
+        </script>
+        
         <script src="{% static 'js/jquery-1.11.125.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap25.min.js' %}"></script>
         <script src="{% static 'js/bootstrap-hover-dropdown.min.js' %}"></script>

@@ -37,6 +37,7 @@
         <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
 
     </head>
+    
     {% include "navbar.html" %}
     <br>
     <br>
@@ -51,6 +52,7 @@
 
         <form action="/category1/" method="post" name="f1" enctype="multipart/form-data">
 {% csrf_token %}
+
           <form class="form-horizontal">
     <div class="form-group">
         <label for="inputEmail" class="control-label col-xs-2"> Name</label>
@@ -61,10 +63,13 @@
 <div class="form-group">
         <label for="inputPassword" class="control-label col-xs-2">Photo</label>
         <div class="col-xs-10"><br>
-            <input type="file"  id="t2" placeholder="" name="photo" required>
+            <input type="file"  id="t2" placeholder="" name="photo" required style="margin-left: 60px;">
         </div>
     </div>
 	<br>
+
+    <input type="hidden" value="{{data}}" name="s1">
+            
     <div class="form-group">
         <div class="col-xs-offset-2 col-xs-10"><br>
             <button type="submit" class="btn btn-primary">Add</button>
@@ -152,6 +157,14 @@ Saico spices had made quality and purity the hall marks of its Products without 
                 </div>
             </div>
         </footer>
+            
+      
+        <script>
+            if(f1.s1.value==1)
+            {
+                alert("success")
+            }
+        </script>
 
         <!-- Javascript -->
         <script src="{% static 'js/jquery-1.11.125.min.js' %}"></script>

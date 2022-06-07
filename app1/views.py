@@ -1,8 +1,9 @@
 from django.shortcuts import render,redirect,HttpResponse
-from app1.models import login,category,products,staff,dealer
+from app1.models import login,category,products,staff,dealer,tbl_idgen,tbl_dealerorderdetails,dealerorder, tbl_payment
 from django.core.files.storage import FileSystemStorage
-from datetime import date
-tday=date.today()
+from django.contrib import messages
+from django.db.models import Sum
+import datetime
 def login1(request):
     return render(request,"login.html")
 def index(request):
@@ -31,9 +32,9 @@ def log(request):
                 elif type=="staff":
                     
                     return redirect('/staffhome')  
-                elif type=="customer":
+                elif type=="dealer":
                     
-                    return redirect('/customers1')  
+                    return redirect('/dealerhome')  
                 elif type=="shop":
                     
                     return redirect('/shop2') 
@@ -49,14 +50,23 @@ def log(request):
 def adminhome(request):
     return render(request,"adminhome.html")     
 def staffhome(request):
-    return render(request,"staffhome.html")          
+    return render(request,"staffhome.html")         
+def dealerhome(request):
+    return render(request,"dealerhome.html")               
 def addcategory(request):
-   return render(request,"addcategory.html")                    
+    data1 = tbl_idgen.objects.get(id=1)
+    id = data1.cid
+    id = int(id+1)
+    cid = "CATEGORY_00" + str(id)
+    request.session["cid"] = id
+    request.session["cid1"] = cid
+    return render(request,"addcategory.html")                    
 
 def category1(request):
     if request.method == 'POST' :
        cat = category()
-       cat.cat_id="na"
+        
+       cat.cat_id=request.session["cid1"]
        cat.cat_name=request.POST.get('name')
        Photo = request.FILES['photo']
        fs = FileSystemStorage()
@@ -64,27 +74,33 @@ def category1(request):
        uploaded_file_url = fs.url(filename)
        cat.photo=uploaded_file_url
        cat.save()
-
-       cat.cat_id = "CAT_00" + str(cat.id)
-       cat.save()
-    return render(request,"addcategory.html")
+       data1=tbl_idgen.objects.get(id=1)
+       data1.cid=request.session['cid']
+       data1.save()
+       return render(request,"addcategory.html",{'data':1})      
+    
 def removecategory(request):
    items= category.objects.all()
    return render(request,"remove_category.html",{'items1':items})
 
 
 def deletecategory(request,id):
-   items = category.objects.get(id=id)
+   items = category.objects.get(cat_id=id)
    items.delete()
    return redirect('/removecategory')    
 def addstaff(request):
-    print("--------------------------",tday)
-    return render(request,"addstaff.html",{"today1":tday})                    
+    data1 = tbl_idgen.objects.get(id=1)
+    id = data1.sid
+    id = int(id+1)
+    sid = "STAFF_00" + str(id)
+    request.session["sid"] = id
+    request.session["sid1"] = sid
+    return render(request,"addstaff.html")                    
 
 def addstaff1(request):
     if request.method == 'POST' :
        cat = staff()
-       cat.staff_id="na"
+       cat.staff_id=request.session["sid1"]
        cat.name=request.POST.get('name')
        cat.address=request.POST.get('address')
        cat.gender=request.POST.get('gender')
@@ -96,21 +112,28 @@ def addstaff1(request):
        cat.post=request.POST.get('post')
        cat.save()
 
-       cat.cat_id = "STAFF_00" + str(cat.id)
-       cat.save()
+       data1=tbl_idgen.objects.get(id=1)
+       data1.sid=request.session['sid']
+       data1.save()
        data=login()
-       data.username="STAFF_00" + str(cat.id)
+       data.username=request.session["sid1"]
        data.password=request.POST.get('phone')
        data.category="staff"
        data.save()
-    return render(request,"addstaff.html")
+    return render(request,"addstaff.html",{'data':1})
 def adddealer(request):
-   return render(request,"adddealer.html")                    
+    data1 = tbl_idgen.objects.get(id=1)
+    id = data1.did
+    id = int(id+1)
+    did = "DEALER_00" + str(id)
+    request.session["did"] = id
+    request.session["did1"] = did
+    return render(request,"adddealer.html")                    
 
 def adddealer1(request):
     if request.method == 'POST' :
        cat = dealer()
-       cat.dealer_id="na"
+       cat.dealer_id=request.session["did1"]
        cat.name=request.POST.get('name')
        cat.address=request.POST.get('address')
        cat.phone=request.POST.get('phone')
@@ -122,27 +145,42 @@ def adddealer1(request):
        cat.dealershipdate=request.POST.get('dealershipdate')
        cat.save()
 
-       cat.cat_id = "Dealer_00" + str(cat.id)
-       cat.save()
-    return render(request,"adddealer.html")    
+       data1=tbl_idgen.objects.get(id=1)
+       data1.did=request.session['did']
+       
+       data1.save()
+       data=login()
+       data.username=request.session["did1"]
+       data.password=request.POST.get('phone')
+       data.category="dealer"
+       data.save()
+    return render(request,"adddealer.html",{'data':1})    
 def removestaff(request):
    items= staff.objects.all()
    return render(request,"remove_staff.html",{'items1':items})
 
 
 def deletestaff(request,id):
-   items = staff.objects.get(id=id)
+   items = staff.objects.get(staff_id=id)
    items.delete()
+   items1=login.objects.get(username=id)
+   items1.delete()
    return redirect('/removestaff')       
 def addproduct(request):
-   data=category.objects.all()
-   return render(request,"addproduct.html",{'data':data})
+    data=category.objects.all()
+    data1 = tbl_idgen.objects.get(id=1)
+    id = data1.pid
+    id = int(id+1)
+    pid = "PRODUCT_00" + str(id)
+    request.session["pid"] = id
+    request.session["pid1"] = pid
+    return render(request,"addproduct.html",{'data':data})
 
 def products1(request):
    if request.method == 'POST' :
        pro = products()
-       pro.prod_id="na"
-       pro.cat_id=request.POST.get('cat_id')
+       pro.prod_id=request.session["pid1"]
+       pro.cat_id_id=request.POST.get('cat_id')
        pro.name=request.POST.get('name')
        pro.description=request.POST.get('description')
        Photo = request.FILES['photo']
@@ -155,27 +193,295 @@ def products1(request):
        
        pro.quantity=request.POST.get('quantity')
        
-       pro.expiredate=request.POST.get('expiredate')
-       pro.manifacturedate=request.POST.get('manifacturedate')
+       pro.expireedate=request.POST.get('expirydate')
+       pro.manifacturedate=request.POST.get('manufacturedate')
        pro.save()
 
-       pro.prod_id = "PROD_00" + str(pro.id)
-       pro.save()
-   return redirect('/addproduct')
+       data1=tbl_idgen.objects.get(id=1)
+       data1.pid=request.session['pid']
+       data1.save()
+       data=category.objects.all()
+   return render(request,"addproduct.html",{'data2':1,'data':data})
 def removeproduct(request):
    items= products.objects.all()
    return render(request,"remove_products.html",{'items1':items})
+def removedealer(request):
+   items= dealer.objects.all()
+   return render(request,"removedealer.html",{'items1':items})
+
 
 def updateproduct(request):
    items= products.objects.all()
    return render(request,"update_products.html",{'items1':items})
 
 def deleteproduct(request,id):
-   items = products.objects.get(id=id)
+   items = products.objects.get(prod_id=id)
    items.delete()
    return redirect('/removeproduct')
+def deletedealer(request,id):
+   items = dealer.objects.get(dealer_id=id)
+   items.delete()
+   items1=login.objects.get(username=id)
+   items1.delete()
+   return redirect('/removedealer')   
+def stockupdate(request):
+   items= products.objects.all()
+   return render(request,"stockupdate.html",{'items1':items})   
+def stockupdate1(request,id):
+   items= products.objects.get(prod_id=id)
+   return render(request,"stockupdate1.html",{'items1':items})     
+def updateproduct(request,id):
+   items= products.objects.get(prod_id=id)
+   return render(request,"updateproduct.html",{'items1':items})    
+def stockupdate2(request,id):
+   items= products.objects.get(prod_id=id)
+   items.quantity=request.POST.get('quantity')
+   items .expiredate=request.POST.get('expiredate')
+   items.manifacturedate=request.POST.get('manifacturedate')
+   items.save()
+   return redirect('/stockupdate')
+def viewproducts(request):
+   items= products.objects.all()
+   return render(request,"viewproducts.html",{'items1':items})    
+def orderproduct(request,id):
+    items=products.objects.get(prod_id=id)
+    items1=dealer.objects.get(dealer_id=request.session['uid'])
+    return render(request,'orderform.html',{'items':items,'items1':items1})    
+def orderproduct1(request,id):
+    data=tbl_dealerorderdetails()
+    if 'oid' not in request.session:
+        data4=products.objects.get(prod_id=id)
+        u=int(data4.quantity)
+        q=int(request.POST.get('quantity'))
+        p=int(u-q)
+        pid=id
+        if p<0:
+            return HttpResponse("stock not available.......only available "+str(u))
+        else:
+            data1 = tbl_idgen.objects.get(id=1)
+            id = data1.odid
+            id = int(id+1)
+            odid = "ORDERDETAILS_00" + str(id)
+            request.session["odid"] = id
+            request.session["odid1"] = odid
+            id = data1.orid
+            id = int(id+1)
+            orid = "ORDER" + str(id)
+            request.session["orid"] = id
+            request.session["orid1"] = orid
+            data2=products.objects.get(prod_id=pid)
+            data.prod_id_id=pid
+            data.quantity=request.POST.get('quantity')
+            q=int(request.POST.get('quantity'))
+            amt=int(request.POST.get('price'))
+            net=int(q*amt)
+            data.amount=net
+            data.status="pending"
+            data.orderdet_id=request.session["odid1"]
+            data.order_id=request.session["orid1"]
+            data.save()
+            data2 = tbl_idgen.objects.get(id=1)
+            data2.odid=request.session['odid']
+            data2.save()
+            request.session['oid']=request.session["orid1"]
+            data10=products.objects.all()
+            return render(request,'viewproducts.html',{'items1':data10}) 
+           
+    else:
+        data4=products.objects.get(prod_id=id)
+        u=int(data4.quantity)
+        q=int(request.POST.get('quantity'))
+        p=int(u-q)
+        pid=id
+        if p<0:
+            return HttpResponse("stock not available.......only available "+str(u))
+        else:
+            data2=products.objects.get(prod_id=pid)
+            data.prod_id_id=pid
+            data.quantity=request.POST.get('quantity')
+            q=int(request.POST.get('quantity'))
+            amt=int(request.POST.get('price'))
+            net=int(q*amt)
+            data.amount=net
+            data.status="pending"
+            data1 = tbl_idgen.objects.get(id=1)
+            id = data1.odid
+            id = int(id+1)
+            odid = "ORDERDETAILS_00" + str(id)
+            request.session["odid"] = id
+            request.session["odid1"] = odid
+            
+            data.orderdet_id=request.session["odid1"]
+            data.order_id=request.session["oid"]
+            data.save()
+            data2 = tbl_idgen.objects.get(id=1)
+            data2.odid=request.session['odid']
+            data2.save()
+            data10=products.objects.all()
+            return render(request,'viewproducts.html',{'items1':data10})     
+def finishorder(request):
+            if 'oid' not in request.session:
+                return HttpResponse("please choose products..............")
+            else:
+
+    
+                oo=request.session['oid']
+                amount =tbl_dealerorderdetails.objects.filter(order_id=oo).aggregate(sum=Sum('amount'))['sum']
+                data = dealerorder()
+                data.order_id = request.session['oid']
+                data.dealer_id_id =request.session['uid']
+                now = datetime.datetime.now()
+                time = now.strftime('%y-%m-%d')
+                data.order_date = time
+                data.amount=amount
+                data.status="pending"
+                data.paymentstatus="pending"
+                data.save()
+                data1 = tbl_idgen.objects.get(id=1)
+                data1.orid=request.session['orid']
+                data1.save()
+                
+                return render(request,"payments.html",{'a':amount,'id':request.session['oid'],'d':request.session['uid']})   
+
+
+
+def payments1(request):
+    data=tbl_payment()
+    data1 = tbl_idgen.objects.get(id=1)
+    id = data1.p1id
+    id = int(id+1)
+    p1id = "PAYMENT_00" + str(id)
+    request.session["p1id"] = id
+    data.payment_id=p1id
+    data.order_id_id=request.POST.get('orderid')
+    data.dealer_id_id=request.POST.get('dealerid')
+    data.bank_name=request.POST.get('bank')
+    data.amount=request.POST.get('amount')
+    data.ifsc=request.POST.get('ifsc')
+    data.accnumber=request.POST.get('acc_number')
+    data.payment_mode=request.POST.get('mode')
+    data.status="pending"
+    data.save()
+    data1.p1id=request.session["p1id"]
+    data1.save()
+    del request.session['oid']
+    data10=products.objects.all()
+    return render(request,'viewproducts.html',{'items1':data10,'s1':1})     
+def vieworder(request):
+ items= dealerorder.objects.filter(status="pending")
+ return render(request,"process_order.html",{'items1':items})
 
 
 
 
+def processorder1(request,id):
+   items=tbl_dealerorderdetails.objects.filter(order_id=id).filter(status="pending")
+   return render(request,"viewdetails.html",{'items1':items,'z':id})
+def viewpayment(request,id):
+   items=tbl_payment.objects.filter(order_id=id)
+   return render(request,"viewpayment.html",{'items1':items})
+
+def acceptorder(request,id):
+
+
+
+
+
+
+    tdt=tbl_dealerorderdetails.objects.filter(order_id=id) 
+    for ct in tdt:
+        
+        data4=products.objects.get(prod_id=ct.prod_id_id)
+        u=int(data4.quantity)
+        q=int(ct.quantity)
+        p=int(u-q)
+        if p<0:
+            return HttpResponse("stock not available.......only available "+str(u))
+        else:
+            ct.status="Order Accepted"
+            ct.save()
+            data5=products.objects.get(prod_id=ct.prod_id_id)
+            u=int(data5.quantity)
+            q=int(ct.quantity)
+            
+            p=int(u-q)
+            data5.quantity=p
+            data5.save()
+
+            count = tbl_dealerorderdetails.objects.filter(order_id=ct.order_id).filter(status="pending").count()
+            if count==0:
+                data1=dealerorder.objects.get(order_id=ct.order_id)
+                data1.status = "completed"
+                data1.save()
+            #data1 = tbl_dealerorderdetails.objects.filter(order_id=ct.order_id).filter(status="pending")
+
+    return render(request,"staffhome.html")
+      
+
+
+
+
+
+    
+def rejectorder(request,id):
+    data = tbl_dealerorderdetails.objects.get(orderdet_id=id)
+    data.status = "Order Rejected"
+    data.save()
+    count = tbl_dealerorderdetails.objects.filter(order_id=data.order_id).filter(status="pending").count()
+    if count==0:
+        data1=dealerorder.objects.get(order_id=data.order_id)
+        data1.status = "completed"
+        data1.save()
+    data1 = tbl_dealerorderdetails.objects.filter(order_id=data.order_id).filter(status="pending")
+
+    return render(request,"viewdetails.html",{'items1':data1})
+def approveorders(request):
+ items= dealerorder.objects.filter(status="completed").order_by('-order_date')
+ return render(request,"approveorders.html",{'items1':items})
+
+
+def pendingorders(request):
+ items= dealerorder.objects.filter(status="pending")
+ return render(request,"pendingorders.html",{'items1':items})
+
+def approveorders1(request,id):
+   items=tbl_dealerorderdetails.objects.filter(order_id=id).filter(status="Order Accepted")
+   return render(request,"approveorders1.html",{'items1':items})
+def viewpayment(request,id):
+   items=tbl_payment.objects.filter(order_id=id)
+   return render(request,"viewpayment.html",{'items1':items})
+def viewpayment1(request,id):
+   items=tbl_payment.objects.filter(order_id=id)
+   return render(request,"viewpayment1.html",{'items1':items})
+def rejectorders(request):
+ items= dealerorder.objects.filter(status="completed")
+ return render(request,"rejectorders.html",{'items1':items})
+
+def pendingorders1(request,id):
+   items=tbl_dealerorderdetails.objects.filter(order_id=id).filter(status="pending")
+   return render(request,"pendingorders1.html",{'items1':items})
+
+
+def approveorders1(request,id):
+   items=tbl_dealerorderdetails.objects.filter(order_id=id).filter(status="Order Accepted")
+   return render(request,"approveorders1.html",{'items1':items})   
+def rejectorders1(request,id):
+   items=tbl_dealerorderdetails.objects.filter(order_id=id).filter(status="Order Rejected")
+   return render(request,"rejectorders1.html",{'items1':items})  
+def search(request):   
+    data = request.POST.get('search')
+    data2 = products.objects.all()
+    data5=[];  
+    data6=[];  
+    for x in data2: 
+        p=x.name.lower()
+        data5.append(p)
+    for y in data5:
+        if data in y:
+            data6.append(y)   
+    for s in data6:
+        data=products.objects.filter(name=s)
+
+        return render(request,'viewproducts.html',{'items1':data})   
+    return render(request,"vieworder.html")     
 # Create your views here.

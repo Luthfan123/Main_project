@@ -1,0 +1,46 @@
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 't.css' %}">
+        <div class="basic">
+                {% include "staff1.html" %}
+            </div>
+    </head>
+        <body>
+            <div style="overflow-x:auto;">   
+                <center>
+                    <H1>VIEW ORDER</H1>
+            <table border="2px">
+                <tr>
+                   
+                   
+                    <th>bank name</th>
+                    <th>ifsc</th>
+                    <th>account number</th>
+                  
+                    <th>amount</th>
+                    <th>payment mode</th>
+                </tr>
+
+        {% for pr in items1 %}
+        <tr>
+           
+           
+            <td>{{pr.bank_name}}</td>
+           
+            <td>{{pr.ifsc}}</td>
+          
+            
+            <td>{{pr.accnumber}}</td>
+
+            <td>{{pr.amount}}</td>
+            <td>{{pr.payment_mode}}</td>
+           
+   
+            {% endfor %}
+            </tr>
+            </table>
+        </center>
+            </div>
+        </body>
+</html>

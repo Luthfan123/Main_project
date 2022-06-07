@@ -26,23 +26,54 @@ urlpatterns = [
     path('log/',views.log),
     path('adminhome/',views.adminhome),
     path('staffhome/',views.staffhome),
+    path('dealerhome/',views.dealerhome),
     path('addcategory/',views.addcategory),
     path('category1/',views.category1),
     path('removecategory/',views.removecategory), 
-    path('deletecategory/<int:id>',views.deletecategory), 
+    path('deletecategory/<str:id>',views.deletecategory), 
     path('addproduct/',views.addproduct), 
     path('products1/',views.products1),
     path('removeproduct/',views.removeproduct), 
     path('updateproduct/',views.updateproduct), 
-   
-
-    path('deleteproduct/<int:id>',views.deleteproduct), 
+    path('removedealer/',views.removedealer), 
+    
+    
+    path('deletedealer/<str:id>',views.deletedealer), 
+    path('deleteproduct/<str:id>',views.deleteproduct), 
     path('addstaff/',views.addstaff),
     path('addstaff1/',views.addstaff1),
     path('removestaff/',views.removestaff), 
-    path('deletestaff/<int:id>',views.deletestaff), 
+    path('deletestaff/<str:id>',views.deletestaff), 
     path('adddealer/',views.adddealer),
     path('adddealer1/',views.adddealer1),
+    path('stockupdate/',views.stockupdate),
+    path('stockupdate1/<str:id>',views.stockupdate1),
+    path('updateproduct/<str:id>',views.updateproduct),
+    path('stockupdate2/<str:id>',views.stockupdate2),
+    path('viewproducts/',views.viewproducts),
+    path('orderproduct/<str:id>',views.orderproduct),
+    path('orderproduct1/<str:id>',views.orderproduct1),
+    path('finishorder/',views.finishorder),
+    path('payments1/',views.payments1),
+    path('vieworder/',views.vieworder),
+    path('processorder1/<str:id>',views.processorder1),
+    path('viewpayment/<str:id>',views.viewpayment),
+    path('acceptorder/<str:id>',views.acceptorder),
+    path('rejectorder/<str:id>',views.rejectorder),
+    path('approveorders/',views.approveorders),
+    path('rejectorders/',views.rejectorders),
+    path('viewpayment1/<str:id>',views.viewpayment1),
+    path('approveorders1/<str:id>',views.approveorders1),
+    path('rejectorders1/<str:id>',views.rejectorders1),
+    path('search/',views.search),
+    path('pendingorders/',views.pendingorders),
+    path('pendingorders1/<str:id>',views.pendingorders1),
+
+
+
+
+
+
 ]
 
 if settings.DEBUG:
