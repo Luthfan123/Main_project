@@ -73,7 +73,11 @@
                     <button type="submit" class="btn btn-primary">Search</button>
                
    </form>
-
+   <br>
+      
+   <h3>Please checkout after purchasing.....<br><br>
+   <button><a href="/finishorder" class="s1">CHECKOUT</a>
+</button></h3> 
                    
         <body>
            
@@ -84,14 +88,14 @@
                    <img src="{{ct.photo}}" width="80px" height="80px"><br>
                  
                   
-                   name<b>:</b>{{ct.name}}<br>
+                   Name<b>:</b>{{ct.name}}<br>
                     
-                   unit price<b>: </b>{{ct.unitprice}}<br>
-                    quantity<b>:</b>{{ct.quantity}}<br>
-                    man<b>:</b>{{ct.manifacturedate}}<br>
-                    expi<b>:</b>{{ct.expiredate}}<br>
-                    des<b>:</b>{{ct.description}}<br>
-                    unit<b>:</b>{{ct.unit}}<br>
+                   Unit price<b>: </b>{{ct.unitprice}}<br>
+                    Quantity<b>:</b>{{ct.quantity}}<br>
+                    Manf<b>:</b>{{ct.manifacturedate}}<br>
+                    Exp<b>:</b>{{ct.expiredate}}<br>
+                    Des<b>:</b>{{ct.description}}<br>
+                    Unit<b>:</b>{{ct.unit}}<br>
                     <td><a href="/orderproduct/{{ct.prod_id}}">ORDER</a></td>
    
             </div>
@@ -110,8 +114,6 @@
                     
 
          
-           
-          <h3>Please checkout.after purchasing.....</h3> 
-           <button><a href="/finishorder" class="s1">CHECKOUT</a></button>
+     
         </body>
 </html>

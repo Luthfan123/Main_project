@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,HttpResponse
-from app1.models import login,category,products,staff,dealer,tbl_idgen,tbl_dealerorderdetails,dealerorder, tbl_payment
+from app1.models import login,category,products,staff,dealer,tbl_idgen,tbl_dealerorderdetails,dealerorder, tbl_payment,tbl_delivery,tbl_cancel
 from django.core.files.storage import FileSystemStorage
 from django.contrib import messages
 from django.db.models import Sum
@@ -193,7 +193,7 @@ def products1(request):
        
        pro.quantity=request.POST.get('quantity')
        
-       pro.expireedate=request.POST.get('expirydate')
+       pro.expiredate=request.POST.get('expirydate')
        pro.manifacturedate=request.POST.get('manufacturedate')
        pro.save()
 
@@ -386,7 +386,7 @@ def acceptorder(request,id):
 
 
 
-
+    oo=id
 
     tdt=tbl_dealerorderdetails.objects.filter(order_id=id) 
     for ct in tdt:
@@ -410,12 +410,17 @@ def acceptorder(request,id):
 
             count = tbl_dealerorderdetails.objects.filter(order_id=ct.order_id).filter(status="pending").count()
             if count==0:
-                data1=dealerorder.objects.get(order_id=ct.order_id)
-                data1.status = "completed"
-                data1.save()
+                data3=dealerorder.objects.get(order_id=ct.order_id)
+                data3.status = "completed"
+                data3.save()
             #data1 = tbl_dealerorderdetails.objects.filter(order_id=ct.order_id).filter(status="pending")
-
-    return render(request,"staffhome.html")
+                data1 = tbl_idgen.objects.get(id=1)
+                id = data1.dlid
+                id = int(id+1)
+                dlid = "DELIVERY_00" + str(id)
+                request.session["dlid"] = id
+                request.session["dlid1"] = dlid
+                return render(request,"delivery.html",{'o1':oo,'o2':data3.dealer_id_id})
       
 
 
@@ -470,18 +475,117 @@ def rejectorders1(request,id):
    return render(request,"rejectorders1.html",{'items1':items})  
 def search(request):   
     data = request.POST.get('search')
-    data2 = products.objects.all()
-    data5=[];  
-    data6=[];  
-    for x in data2: 
-        p=x.name.lower()
-        data5.append(p)
-    for y in data5:
-        if data in y:
-            data6.append(y)   
-    for s in data6:
-        data=products.objects.filter(name=s)
-
-        return render(request,'viewproducts.html',{'items1':data})   
+    # data2 = products.objects.all()
+    # data5=[];  
+    # data6=[];  
+    # for x in data2: 
+    #     p=x.name.lower()
+    #     data5.append(p)
+    # for y in data5:
+    #     if data in y:
+    #         data6.append(y)   
+    # for s in data6:
+    if data:
+        result=products.objects.filter(name__icontains=data)
+        return render(request,'viewproducts.html',{'items1':result})   
     return render(request,"vieworder.html")     
+def delivery1(request):
+    data=tbl_delivery()
+    data.delivery_id=request.session['dlid1']
+    data.order_id_id=request.POST.get('orderid')
+    data.dealer_id_id=request.POST.get('dealerid')
+    data.date=request.POST.get('date')
+    data.time=request.POST.get('time')
+    data.status="pending"
+    data.save()
+    data1 = tbl_idgen.objects.get(id=1)
+    data1.dlid=request.session['dlid']
+    data1.save()
+    
+    return render(request,"staffhome.html")        
+def deliverystatus(request):
+ items= dealerorder.objects.filter(status="completed").filter(dealer_id_id=request.session['uid'])
+ return render(request,"deliverystatus.html",{'items1':items})   
+def deliverystatus1(request,id):
+ items=tbl_delivery.objects.get(order_id_id=id)
+ return render(request,"deliverystatus1.html",{'pr':items})    
+def pendingordersdealer(request):
+ items= dealerorder.objects.filter(status="pending").filter(dealer_id_id=request.session['uid'])
+ return render(request,"pendingordersdealer.html",{'items1':items})    
+def pending1(request,id):
+   items=tbl_dealerorderdetails.objects.filter(order_id=id).filter(status="pending")
+   return render(request,"pending1.html",{'items1':items,'z':id})
+def cancelorder(request):
+ items= dealerorder.objects.filter(status="pending").filter(dealer_id_id=request.session['uid'])
+ return render(request,"cancelorder.html",{'items1':items})   
+def cancelorder1(request,id):
+   items=tbl_dealerorderdetails.objects.filter(order_id=id).filter(status="pending")
+   return render(request,"cancelorder1.html",{'items1':items,'z':id}) 
+def cancelorder2(request,id):
+   items=tbl_dealerorderdetails.objects.get(orderdet_id=id)
+   data1 = tbl_idgen.objects.get(id=1)
+   id = data1.cnid
+   id = int(id+1)
+   cnid = "CANCEL_00" + str(id)
+   request.session["cnid"] = id
+   request.session["cnid1"] = cnid               
+   return render(request,"cancelreason.html",{'items1':items}) 
+def cancelreason1(request,id):
+    items=tbl_dealerorderdetails.objects.get(orderdet_id=id)
+    items.status="cancelled"
+    items.save()
+    data=tbl_cancel()
+    data.cancel_id=request.session['cnid1']
+    data.orderdet_id_id=id
+    now = datetime.datetime.now()
+    time = now.strftime('%y-%m-%d')
+    data.cancel_date=time
+    data.status="pending"
+    data.cancel_reason=request.POST.get('reason')
+    data.save()
+    data1 = tbl_idgen.objects.get(id=1)
+    data1.cnid=request.session['cnid']
+    data1.save()
+    items1=tbl_dealerorderdetails.objects.filter(order_id=items.order_id).filter(status="pending")
+    return render(request,"cancelorder1.html",{'items1':items1,'z':id}) 
+def viewcancelorder(request):
+ items=tbl_dealerorderdetails.objects.filter(status="cancelled")
+ return render(request,"viewcancelorder.html",{'items1':items,'z':id})
+def viewreason(request,id):
+ items1=tbl_cancel.objects.get(orderdet_id_id=id)
+ return render(request,"viewreason.html",{'pr':items1})
+def viewreason1(request,id):
+ items1=tbl_cancel.objects.get(cancel_id=id)
+ items1.status="cancel accepted"
+ items1.save()
+ items=tbl_dealerorderdetails.objects.get(orderdet_id=items1.orderdet_id_id)
+ items.status="cancel order"
+ items.save()
+ count = tbl_dealerorderdetails.objects.filter(order_id=items.order_id).filter(status="pending").count()
+ if count==0:
+        data3=dealerorder.objects.get(order_id=items.order_id)
+        data3.status="cancelled"
+        data3.save()
+        return render(request,"staffhome.html")
+ else:
+        items=tbl_dealerorderdetails.objects.filter(order_id=items.order_id).filter(status="pending")
+        return render(request,"cancelorder1.html",{'items1':items,'z':id}) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+
+
+  
 # Create your views here.

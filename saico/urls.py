@@ -68,6 +68,19 @@ urlpatterns = [
     path('search/',views.search),
     path('pendingorders/',views.pendingorders),
     path('pendingorders1/<str:id>',views.pendingorders1),
+    path('delivery1/',views.delivery1),
+    path('deliverystatus/',views.deliverystatus),
+    path('deliverystatus1/<str:id>',views.deliverystatus1),
+    path('pendingordersdealer/',views.pendingordersdealer),
+    path('pending1/<str:id>',views.pending1),
+    path('cancelorder/',views.cancelorder),
+    path('cancelorder1/<str:id>',views.cancelorder1),
+    path('cancelorder2/<str:id>',views.cancelorder2),
+    path('cancelreason1/<str:id>',views.cancelreason1),
+    path('viewcancelorder/',views.viewcancelorder),
+    path('viewreason/<str:id>',views.viewreason),
+    path('viewreason1/<str:id>',views.viewreason1),
+
 
 
 

@@ -115,21 +115,21 @@
     <div class="form-group">
         <label for="inputEmail" class="control-label col-xs-2">Price</label>
         <div class="col-xs-10">
-		<input type="text"  id="t1" placeholder="unit price" name="unitprice" required>
+		<input type="number"  id="t1" placeholder="unit price" name="unitprice" required>
         </div>
     </div>
 
     <div class="form-group">
         <label for="inputEmail" class="control-label col-xs-2">Unit</label>
         <div class="col-xs-10">
-		<input type="text"  id="t1" placeholder="unit" name="unit" required>
+		<input type="number"  id="t1" placeholder="unit" name="unit" required>
         </div>
     </div>
 
     <div class="form-group">
         <label for="inputEmail" class="control-label col-xs-2">Quantity</label>
         <div class="col-xs-10">
-		<input type="text"  id="t1" placeholder="quantity" name="quantity" required>
+		<input type="number"  id="t1" placeholder="quantity" name="quantity" required>
         </div>
     </div>
 
@@ -160,8 +160,8 @@
         <div class="col-xs-10">
 	
         
-           <select id="t1" placeholder="" name="cat_id" required style="margin-top:1px;">
-            <option value="0">please choose a category</option>
+           <select id="t1" placeholder="" name="cat_id" required style="margin-top:1px;" >
+            <option value="">please choose a category</option>
             {% for data in data %}
             <option value="{{data.cat_id}}">{{data.cat_name}}</option>
             {% endfor %}

@@ -3,14 +3,13 @@
         {% load static %}
         <link rel="stylesheet" href="{% static 't.css' %}">
         <div class="basic">
-                {% include "admin1.html" %}
+                {% include "dealer1.html" %}
             </div>
     </head>
-    
         <body>
             <div style="overflow-x:auto;">   
                 <center>
-                    <H1>APPROVED ORDERS</H1>
+                    <H1>    PENDING ORDERS</H1>
             <table border="2px">
                 <tr>
                    
@@ -22,7 +21,7 @@
                     <th>dealer id</th>
                     <th>dealer name</th>
                     <th></th>
-                    <th></th>
+                   
                 </tr>
 
         {% for pr in items1 %}
@@ -38,8 +37,8 @@
 
             
            
-            <td><a href="/approveorders1/{{pr.order_id}}">DETAILS</a></td>
-            <td><a href="/viewpayment1/{{pr.order_id}}">PAYMENT DETAILS</a></td>
+            <td><a href="/pending1/{{pr.order_id}}">DETAILS</a></td>
+            
             {% endfor %}
             </tr>
             </table>

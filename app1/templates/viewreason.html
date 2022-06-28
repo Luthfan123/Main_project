@@ -26,27 +26,25 @@ button{
                 <tr>
                    
                    
-                    <th>product name</th>
-                    <th>amount</th>
-                    <th>quantity</th>
-                  
+                    <th>REASON</th>
+                    <th>DATE</th>
+                 
+                  <th></th>
                    
                 </tr>
 
-        {% for pr in items1 %}
+      
         <tr>
            
            
-            <td>{{pr.prod_id.name}}</td>
+            <td>{{pr.cancel_reason}}</td>
            
-            <td>{{pr.amount}}</td>
+            <td>{{pr.cancel_date}}</td>
           
             
-            <td>{{pr.quantity}}</td>
-
-            
-            {% endfor %}
           
+            <td><a href="/viewreason1/{{pr.cancel_id}}">ACCEPT</a></td>
+           
          
             
             </tr>
@@ -55,7 +53,7 @@ button{
             </div>
             <br>
             <br>
-            <button><td><a href="/acceptorder/{{z}}" style="color:white">PROCESS ORDER</a></td></button>
+       
           
         </body>
 </html>

@@ -101,6 +101,26 @@ class tbl_idgen(models.Model):
     sid = models.IntegerField() 
     odid= models.IntegerField()    
     orid= models.IntegerField() 
-    p1id= models.IntegerField()                      
+    p1id= models.IntegerField()   
+    dlid= models.IntegerField()   
+    cnid= models.IntegerField()   
+class tbl_delivery(models.Model):
+    delivery_id=models.CharField(primary_key=True, max_length=30)
+    order_id=models.ForeignKey(dealerorder, on_delete=models.CASCADE)
+    dealer_id=models.ForeignKey(dealer, on_delete=models.CASCADE)
+    status=models.CharField(max_length=30)
+    date=models.CharField(max_length=30)
+    time=models.CharField(max_length=30)
+    class Meta:
+        db_table="tbl_delivery"        
+class tbl_cancel(models.Model):
+    cancel_id=models.CharField(primary_key=True, max_length=30)
+    orderdet_id=models.ForeignKey(tbl_dealerorderdetails, on_delete=models.CASCADE)
+    cancel_reason=models.CharField(max_length=30)
+    status=models.CharField(max_length=30)
+    cancel_date=models.CharField(max_length=30)
+    class Meta:
+        db_table="tbl_cancel"                                          
+                   
 
 # Create your models here.

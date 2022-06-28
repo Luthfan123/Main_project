@@ -2,6 +2,23 @@
 <html lang="en">
 
     <head>
+        <script>
+            function valid()
+            {
+                
+                enterDate=new Date(f1.dealershipdate.value);
+               
+                curDate= new Date();
+                if(curDate<enterDate)
+                {
+                    alert("Invalid date");
+                    f1.dealershipdate.focus();
+                    return false;
+                }
+               
+               return true;
+            }
+        </script>
         
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +35,7 @@
         <link rel="stylesheet" href="{% static 'css/magnific-popup25.css' %}">
         <link rel="stylesheet" href="{% static 'flexslider/flexslider25.css' %}">
         <link rel="stylesheet" href="{% static 'css/sa.css' %}">
-        <link rel="stylesheet" href="{% static 'css/sss.css' %}">
+        <link rel="stylesheet" href="{% static 'css/demo1.css' %}">
         <link rel="stylesheet" href="{% static 'css/media-queries25.css' %}">
 		
 	    
@@ -35,25 +52,9 @@
         <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
-        <script>
-            function valid()
-            {
-                
-                enterDate=new Date(f1.doj.value);
-               
-                curDate= new Date();
-                if(curDate<enterDate)
-                {
-                    alert("Invalid date");
-                    f1.doj.focus();
-                    return false;
-                }
-               
-               return true;
-            }
-        </script>
+
     </head>
-    {% include "navbar.html" %}
+    {% include "dealer2.html" %}
     <br>
     <br>
     <br>
@@ -62,78 +63,22 @@
         
         <!-- Top menu -->
 		
-        <H1>ADD  STAFF</H1>
+        <H1>CANCEL ORDER</H1>
 <div class="boxlogin">
 
-        <form action="/addstaff1/" method="post" name="f1" enctype="multipart/form-data">
+        <form action="/cancelreason1/{{items1.orderdet_id}}" method="post" name="f1" enctype="multipart/form-data">
 {% csrf_token %}
           <form class="form-horizontal">
     <div class="form-group">
-        <label for="inputEmail" class="control-label col-xs-2"> Name</label>
+        <label for="inputEmail" class="control-label col-xs-2"> Reason</label>
         <div class="col-xs-10">
-		<input type="text"  id="t1" placeholder="name" name="name" required>
+		<input type="text"  id="t1" placeholder="reason" name="reason" required>
         </div>
     </div>
 
    
-    <div class="form-group">
-        <label for="inputEmail" class="control-label col-xs-2"> Address</label>
-        <div class="col-xs-10">
-		<input type="text"  id="t1" placeholder="Address" name="address" required>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputEmail" class="control-label col-xs-2">gender</label>
-        <div class="col-xs-10">
-		<select id="t1" name="gender">
-            <option>please choose gender</option>
-            <option value="male">male</option>
-            <option value="female">female</option>
-        </select>
-        </div>
-    </div>
 
-    <div class="form-group">
-        <label for="inputEmail" class="control-label col-xs-2">Phone</label>
-        <div class="col-xs-10">
-		<input type="text" maxlength="10" pattern="[6789][0-9]{9}" id="t1" placeholder="Phone" name="phone" title="please use numbers" required>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="inputEmail" class="control-label col-xs-2">Email</label>
-        <div class="col-xs-10">
-		<input type="email"  id="t1" placeholder="Email" name="email" required>
-        </div>
-    </div>
-
-
-    <div class="form-group">
-        <label for="inputEmail" class="control-label col-xs-2">Doj</label>
-        <div class="col-xs-10">
-		<input type="date"  id="t1" placeholder="Doj" name="doj" required>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputEmail" class="control-label col-xs-2">Qualification</label>
-        <div class="col-xs-10">
-		<input type="text"  id="t1" placeholder="Qualification" name="qualification" required>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputEmail" class="control-label col-xs-2">Department</label>
-        <div class="col-xs-10">
-		<input type="text"  id="t1" placeholder="Department" name="department" required>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="inputEmail" class="control-label col-xs-2">Post</label>
-        <div class="col-xs-10">
-		<input type="text"  id="t1" placeholder="Post" name="post" required>
-        </div>
-    </div>
    
-
 
 
 
@@ -150,11 +95,12 @@
 		 <button type="reset" class="btn btn-primary">Refresh</button>
 
         </div>
+        <input type="hidden" value="{{data}}" name="s1">
     </div>
         <div class="form-group">
         <div class="col-xs-offset-2 col-xs-10">
  <p align="right"><a href="#"></a><span class="fontawesome-arrow-right"></span></p>
- <input type="hidden" value="{{data}}" name="s1">	
+		
     
 </div></div>
         </form>
@@ -231,15 +177,13 @@ Saico spices had made quality and purity the hall marks of its Products without 
                 </div>
             </div>
         </footer>
-
-        <!-- Javascript -->
         <script>
             if(f1.s1.value==1)
             {
                 alert("success")
             }
         </script>
-        
+        <!-- Javascript -->
         <script src="{% static 'js/jquery-1.11.125.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap25.min.js' %}"></script>
         <script src="{% static 'js/bootstrap-hover-dropdown.min.js' %}"></script>
