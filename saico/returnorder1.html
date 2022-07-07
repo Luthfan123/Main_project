@@ -1,0 +1,61 @@
+<html>
+    <head>
+        {% load static %}
+        <style>
+button{
+    background-color: black;
+    color:azure;
+    width:300px;
+    height:70px;
+    margin-left:500px;
+   
+    border-radius: 20px;
+    position: relative;
+}
+        </style>
+        <link rel="stylesheet" href="{% static 't.css' %}">
+        <div class="basic">
+                {% include "dealer1.html" %}
+            </div>
+    </head>
+        <body>
+            <div style="overflow-x:auto;">   
+                <center>
+                    <H1>VIEW ORDER</H1>
+            <table border="2px">
+                <tr>
+                   
+                   
+                    <th>product name</th>
+                    <th>amount</th>
+                    <th>quantity</th>
+                  
+                   <th></th>
+                </tr>
+
+        {% for pr in items1 %}
+        <tr>
+           
+           
+            <td>{{pr.prod_id.name}}</td>
+           
+            <td>{{pr.amount}}</td>
+          
+            
+            <td>{{pr.quantity}}</td>
+
+            <td><a href="/returnorder2/{{pr.orderdet_id}}">RETURN</a></td>
+            {% endfor %}
+          
+         
+            
+            </tr>
+            </table>
+        </center>
+            </div>
+            <br>
+            <br>
+          
+          
+        </body>
+</html>

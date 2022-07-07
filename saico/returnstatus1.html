@@ -1,0 +1,44 @@
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 't.css' %}">
+        <div class="basic">
+                {% include "dealer1.html" %}
+            </div>
+    </head>
+        <body>
+            <div style="overflow-x:auto;">   
+                <center>
+                    <H1>RETURN ORDER DETAILS</H1>
+            <table border="2px">
+                <tr>
+                   
+                   
+                    <th>product name</th>
+                    <th>amount</th>
+                    <th>quantity</th>
+                  
+                  
+                </tr>
+
+        {% for pr in items1 %}
+        <tr>
+           
+           
+            <td>{{pr.prod_id.name}}</td>
+           
+            <td>{{pr.amount}}</td>
+          
+            
+            <td>{{pr.quantity}}</td>
+
+            
+           
+           
+            {% endfor %}
+            </tr>
+            </table>
+        </center>
+            </div>
+        </body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 't.css' %}">
+        <div class="basic">
+                {% include "dealer1.html" %}
+            </div>
+    </head>
+        <body>
+            <div style="overflow-x:auto;">   
+                <center>
+                    <H1>    PENDING ORDERS</H1>
+            <table border="2px">
+                <tr>
+                   
+                   
+                    <th>order id</th>
+                    <th>order date</th>
+                    <th>amount</th>
+                   
+                    <th>dealer id</th>
+                    <th>dealer name</th>
+                    <th></th>
+                   
+                </tr>
+
+        {% for pr in items1 %}
+        <tr>
+           
+           
+            <td>{{pr.order_id}}</td>
+            <td>{{pr.order_date}}</td>
+            <td>{{pr.amount}}</td>
+          
+            <td>{{pr.dealer_id_id}}</td>
+            <td>{{pr.dealer_id.name}}</td>
+
+            
+           
+            <td><a href="/pending1/{{pr.order_id}}">DETAILS</a></td>
+            
+            {% endfor %}
+            </tr>
+            </table>
+        </center>
+            </div>
+        </body>
+</html>

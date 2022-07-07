@@ -1,0 +1,43 @@
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 't.css' %}">
+        <div class="basic">
+                {% include "dealer1.html" %}
+            </div>
+    </head>
+        <body>
+            <div style="overflow-x:auto;">   
+                <center>
+                    <H1>DELIVERY DETAILS</H1>
+            <table border="2px">
+                <tr>
+                   
+                   
+                    <th>date</th>
+                    <th>time</th>
+                    <th>amount</th>
+                  
+                  
+                </tr>
+
+      
+        <tr>
+           
+           
+            <td>{{pr.date}}</td>
+           
+            <td>{{pr.time}}</td>
+          
+            
+         
+            <td>{{pr.order_id.amount}}</td>
+           
+   
+           
+            </tr>
+            </table>
+        </center>
+            </div>
+        </body>
+</html>

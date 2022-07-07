@@ -1,0 +1,59 @@
+<html>
+    <head>
+        {% load static %}
+        <style>
+button{
+    background-color: black;
+    color:azure;
+    width:300px;
+    height:70px;
+    margin-left:500px;
+   
+    border-radius: 20px;
+    position: relative;
+}
+        </style>
+        <link rel="stylesheet" href="{% static 't.css' %}">
+        <div class="basic">
+                {% include "staff1.html" %}
+            </div>
+    </head>
+        <body>
+            <div style="overflow-x:auto;">   
+                <center>
+                    <H1>VIEW ORDER</H1>
+            <table border="2px">
+                <tr>
+                   
+                   
+                    <th>REASON</th>
+                    <th>DATE</th>
+                 
+                  <th></th>
+                   
+                </tr>
+
+      
+        <tr>
+           
+           
+            <td>{{pr.cancel_reason}}</td>
+           
+            <td>{{pr.cancel_date}}</td>
+          
+            
+          
+            <td><a href="/viewreason1/{{pr.cancel_id}}">ACCEPT</a></td>
+           
+         
+            
+            </tr>
+            </table>
+        </center>
+            </div>
+            <br>
+            <br>
+       
+          
+        </body>
+</html>

@@ -1,0 +1,52 @@
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 't.css' %}">
+        <div class="basic">
+                {% include "admin1.html" %}
+            </div>
+    </head>
+        <body>
+            <div style="overflow-x:auto;">   
+                <center>
+                    <H1>REMOVE STAFF</H1>
+            <table border="2px">
+                <tr>
+                   
+                   
+                    <th>name</th>
+                    <th>address</th>
+                    <th>gender</th>
+                    <th>phone</th>
+                    <th>email</th>
+                    <th>doj</th>
+                    <th>qualification</th>
+                    <th>department</th>
+                    <th>post</th>
+                    <th>#####</th>
+                </tr>
+
+        {% for pr in items1 %}
+        <tr>
+           
+           
+            <td>{{pr.name}}</td>
+            <td>{{pr.address}}</td>
+            <td>{{pr.gender}}</td>
+            <td>{{pr.phone}}</td>
+            <td>{{pr.email}}</td>
+            <td>{{pr.doj}}</td>
+            <td>{{pr.qualification}}</td>
+            <td>{{pr.department}}</td>
+            
+            <td>{{pr.post}}</td>
+            
+            <td><a href="/deletestaff/{{pr.staff_id}}">delete</a></td>
+   
+            {% endfor %}
+            </tr>
+            </table>
+        </center>
+            </div>
+        </body>
+</html>

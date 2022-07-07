@@ -1,0 +1,39 @@
+<html>
+    <head>
+        {% load static %}
+        <link rel="stylesheet" href="{% static 't.css' %}">
+        <div class="basic">
+                {% include "admin1.html" %}
+            </div>
+    </head>
+        <body>
+            <div style="overflow-x:auto;">   
+                <center>
+                    <H1>COMPLAINT DETAILS</H1>
+            <table border="2px">
+                <tr>
+                   
+                   
+                    <th>complaint</th>
+                    <th>date</th>
+                   <th>dealer name</th>
+                    <th></th>
+                </tr>
+
+        {% for pr in items1 %}
+        <tr>
+           
+           
+            <td>{{pr.complaint}}</td>
+           
+            <td>{{pr.date}}</td>
+          <td>{{pr.dealer_id.name}}</td>
+            <td><a href="/approvecomplaint/{{pr.complaint_id}}">APPROVE</a></td>
+   
+            {% endfor %}
+            </tr>
+            </table>
+        </center>
+            </div>
+        </body>
+</html>

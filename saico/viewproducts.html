@@ -1,0 +1,119 @@
+<html>
+    <head>
+        {% load static %}
+        <style>
+            button{
+    background-color: black;
+    color:azure;
+    width:300px;
+    height:70px;
+    margin-left:500px;
+   MARGIN-TOP:500PX;
+    border-radius: 20px;
+    position: relative;
+}
+
+.s1{
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: xx-large;
+    
+   
+}
+        </style>
+        <link rel="stylesheet" href="{% static 'div.css' %}">
+        <div class="basic">
+                {% include "dealer1.html" %}
+            </div>
+          
+      
+                <!-- CSS -->
+                <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,400">
+                <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Sans">
+                <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lobster">
+                <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap25.min.css' %}">
+                <link rel="stylesheet" href="{% static 'font-awesome/css/font-awesome.min.css' %}">
+                <link rel="stylesheet" href="{% static 'css/animate25.css' %}">
+                <link rel="stylesheet" href="{% static 'css/magnific-popup25.css' %}">
+                <link rel="stylesheet" href="{% static 'flexslider/flexslider25.css' %}">
+                <link rel="stylesheet" href="{% static 'css/form-elements25.css' %}">
+                <link rel="stylesheet" href="{% static 'css/style25.css' %}">
+                <link rel="stylesheet" href="{% static 'css/media-queries25.css' %}">
+                
+                
+                <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+                <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+                <!--[if lt IE 9]>
+                    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+                    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+                <![endif]-->
+        
+                <!-- Favicon and touch icons -->
+                <link rel="shortcut icon" href="assets/ico/favicon.ico">
+                <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+                <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+                <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+                <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+        
+            </head>
+            
+         
+            <br>
+            <br>
+            <br>
+            <br>
+                 
+                <form action="/search/" method="post" name="f3" style="margin-top:10px;">
+        {% csrf_token %}
+        
+               
+          
+                <input type="text"  id="t1" placeholder="search" name="search" required>
+               
+          
+                    <button type="submit" class="btn btn-primary">Search</button>
+               
+   </form>
+   <br>
+      
+   <h3>Please checkout after purchasing.....<br><br>
+   <button><a href="/finishorder" class="s1">CHECKOUT</a>
+</button></h3> 
+                   
+        <body>
+           
+            
+                {% for ct in items1 %} 
+                <div class="content">
+                   
+                   <img src="{{ct.photo}}" width="80px" height="80px"><br>
+                 
+                  
+                   Name<b>:</b>{{ct.name}}<br>
+                    
+                   Unit price<b>: </b>{{ct.unitprice}}<br>
+                    Quantity<b>:</b>{{ct.quantity}}<br>
+                    Manf<b>:</b>{{ct.manifacturedate}}<br>
+                    Exp<b>:</b>{{ct.expiredate}}<br>
+                    Des<b>:</b>{{ct.description}}<br>
+                    Unit<b>:</b>{{ct.unit}}<br>
+                    <td><a href="/orderproduct/{{ct.prod_id}}">ORDER</a></td>
+   
+            </div>
+                    {% endfor %}
+                <form name="f1">
+<input type="hidden" value="{{s1}}" name="s1">
+                </form>
+                <script>
+                    if(f1.s1.value==1)
+                    {
+                        alert("success")
+                    }
+                </script> 
+            
+            
+                    
+
+         
+     
+        </body>
+</html>
